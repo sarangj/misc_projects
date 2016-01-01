@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h1.padding {
+    padding-top: 12%;
+}
+div.sentence {
+    padding-left: 20%;
+    padding-right: 20%;
+}
+img.left {
+    padding-top: 7%;
+    position: absolute; 
+    left: 75px;
+}
+img.right {
+    padding-top: 7%;
+    position: absolute; 
+    right: 75px;
+}
+</style>
+</head>
+{% if image %}
+<img class=left src={{ image }} alt="Candidate" style="width:304px;height:228px;">
+<img class=right src={{ image }} alt="Candidate2" style="width:304px;height:228px;">
+{% endif %}
+<h1 class=padding style="font-family:courier; text-align:center;">Squawking Points</h1>
+<body>
+<p style="font-family:courier; text-align:center;">Choose your candidate, and get squawkin'</p>
+<br>
+<form style="text-align:center;" name="Candidate" action="/" method="post">
+    <select name="Candidate" id="candidate">
+        <option value="TRUMP"{% if request.form['Candidate'] == "TRUMP" %} selected {% endif %}>TRUMP</option>
+        <option value="BUSH"{% if request.form['Candidate'] == "BUSH" %} selected {% endif %}>BUSH</option>
+        <option value="RUBIO"{% if request.form['Candidate'] == "RUBIO" %} selected {% endif %}>RUBIO</option>
+        <option value="CRUZ"{% if request.form['Candidate'] == "CRUZ" %} selected {% endif %}>CRUZ</option>
+        <option value="HUCKABEE"{% if request.form['Candidate'] == "HUCKABEE" %} selected {% endif %}>HUCKABEE</option>
+        <option value="CARSON"{% if request.form['Candidate'] == "CARSON" %} selected {% endif %}>CARSON</option>
+        <option value="KASICH"{% if request.form['Candidate'] == "KASICH" %} selected {% endif %}>KASICH</option>
+        <option value="FIORINA"{% if request.form['Candidate'] == "FIORINA" %} selected {% endif %}>FIORINA</option>
+        <option value="CHRISTIE"{% if request.form['Candidate'] == "CHRISTIE" %} selected {% endif %}>CHRISTIE</option>
+        <option value="PAUL"{% if request.form['Candidate'] == "PAUL" %} selected {% endif %}>PAUL</option>
+    </select>
+    <button type="submit">Squawk!</button>
+</form>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class=sentence style="font-family:courier; text-align:center;" id="content">
+    {% if sentence %}
+    {{ sentence }}
+    {% endif %}
+    {% if error %}
+    <strong>{{ error }}</strong>
+    {% endif %}
+</div>
+</body>
+<html>

@@ -1,3 +1,7 @@
 # django files
-babble*
-venv*
+*babble*
+
+# any venv
+*venv*
+
+
