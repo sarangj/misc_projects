@@ -37,7 +37,8 @@ class Squawk(object):
                         ("Ill", "I'll"), ("lets", "let's"), ("isnt", "isn't"),
                         ("didnt", "didn't"), ("doesnt", "doesn't"), ("youre", "you're"),
                         ("youll", "you'll"), ("thats", "that's"), ("whats", "what's"),
-                        ("theyve", "they've"), ("hes", "he's"), ("youve", "you've")]
+                        ("theyve", "they've"), ("hes", "he's"), ("youve", "you've"),
+                        ("weve", "we've")]
         for old, new in contractions:
             if old in sentence.split():
                 sentence = sentence.replace(old, new)
