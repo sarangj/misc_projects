@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, \
-        abort, render_template, flash
+from flask import Flask, request, g, render_template
 from app.squawk import Squawk
 
 app = Flask(__name__)
