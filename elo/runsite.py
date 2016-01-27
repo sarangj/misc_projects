@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 import sqlite3
-import TrueSkill as ts
+import trueskill as ts
 from flask import Flask, request, g, render_template
 from app.elo import *
 
@@ -27,10 +27,13 @@ def elo_view():
         game_type = request.form['game_type']
         conn = connect_db()
         c = conn.cursor()
-        c.execute('select * from atx_games where sport = (?)', (sport,))
+        c.execute('select * from ratings where sport = (?)', (sport,))
         res = c.fetchall()
-        players_dict = {player: ts.Rating(mu=mu, sigma=sigma, tau=tau) for
-                        player, mu, sigma, tau in res}
+        all_results = {result[0] + '_' + result[1]:
+                        ts.Rating(mu=result[2], sigma=result[3]) for result in res}
+
+        # need to figure out what to do with these 'game' objects;
+        # get results and write them back
         if game_type == '1v1':
             game = Game_1v1(request.form['winner'], request.form['loser'])
         elif game_type == '2v2':
@@ -42,12 +45,17 @@ def elo_view():
         elif game_type == '1v1v1v1':
             game = Game_1v1v1v1(request.form['first'], request.form['second'],
                                 request.form['third'], request.form['fourth'])
-        game.verify_players(players_dict)
+
+        # this needs to be fixed
+        game.verify_players(all_results)
         game.play_game()
 
-        c.execute('insert or replace into atx_games (sport, name, mu, sigma, tau)
-                   values (?,?,?,?,?)', [sport, name, mu, sigma, tau])
-
+        # write new results all back into the table
+        for key, rating in all_results.items():
+            c.execute('insert into ratings values (?,?,?,?)', (
+                      key.split('_')[0], key.split('_')[1], rating.mu, rating.sigma))
+        conn.commit()
+        conn.close()
 
         return render_template('elo.html')
     else:

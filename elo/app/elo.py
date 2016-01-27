@@ -1,4 +1,4 @@
-import TrueSkill as ts
+import trueskill as ts
 
 ts.setup(mu=100.0, sigma=33.333, beta=16.667, tau=0.33333, draw_probability=0)
 
@@ -45,7 +45,7 @@ class Game_2v2(Game):
 
     def play_game(self):
         self.verify_players(self.players)
-        rating_groups = [(self.players[winner1], self.players[winner2)],
+        rating_groups = [(self.players[winner1], self.players[winner2]),
                          (self.players[loser1], self.players[loser2])]
         [(self.players[winner1], self.players[winner2]),
          (self.players[loser1], self.players[loser2])] = ts.rate(rating_groups)
@@ -102,5 +102,5 @@ class Leaderboard(object):
     def sort_leaderboard(self):
         sorted_ratings = sorted(self.players.values(), key=ts.expose, reverse=True)
         lookup = {val: key for key, val in self.players.items()}
-        return [(lookup[rating], rating.mu)] for rating in sorted_ratings]
+        return [(lookup[rating], rating.mu) for rating in sorted_ratings]
 
