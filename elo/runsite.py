@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 import sqlite3
 import trueskill as ts
-from flask import Flask, request, g, render_template
+from flask import Flask, request, g, render_template, redirect, url_for
 from app.elo import *
 
 app = Flask(__name__)
@@ -32,23 +32,19 @@ def elo_view():
         all_results = {result[0] + '_' + result[1]:
                         ts.Rating(mu=result[2], sigma=result[3]) for result in res}
 
-        # need to figure out what to do with these 'game' objects;
-        # get results and write them back
         if game_type == '1v1':
-            game = Game_1v1(request.form['winner'], request.form['loser'])
+            game = Game_1v1(request.form['winner1'], request.form['winner2'], sport)
         elif game_type == '2v2':
             game = Game_2v2(request.form['winner1'], request.form['winner2'],
-                            request.form['loser1'], request.form['loser2'])
+                            request.form['loser1'], request.form['loser2'], sport)
         elif game_type == '1v1v1':
-            game = Game_1v1v1(request.form['first'], request.form['second'],
-                              request.form['third'])
+            game = Game_1v1v1(request.form['winner1'], request.form['winner2'],
+                              request.form['loser1'], sport)
         elif game_type == '1v1v1v1':
-            game = Game_1v1v1v1(request.form['first'], request.form['second'],
-                                request.form['third'], request.form['fourth'])
+            game = Game_1v1v1v1(request.form['winner1'], request.form['winner2'],
+                                request.form['loser1'], request.form['loser2'], sport)
 
-        # this needs to be fixed
-        game.verify_players(all_results)
-        game.play_game()
+        all_results = game.play_game(all_results)
 
         # write new results all back into the table
         for key, rating in all_results.items():
@@ -57,9 +53,22 @@ def elo_view():
         conn.commit()
         conn.close()
 
-        return render_template('elo.html')
+        return redirect(url_for('leaderboard_view'))
     else:
         return render_template('elo.html')
 
+@app.route('/leaderboard', methods=['GET', 'POST'])
+def leaderboard_view():
+    conn = connect_db()
+    c = conn.cursor()
+    c.execute('select * from ratings')
+    res = c.fetchall()
+    scores = {result[0] + '_' + result[1]:
+              ts.Rating(mu=result[2], sigma=result[3]) for result in res}
+    leaderboard = Leaderboard(scores)
+    rankings = leaderboard.sort_leaderboard()
+    conn.close()
+    return render_template('leaderboard.html', rankings=rankings)
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

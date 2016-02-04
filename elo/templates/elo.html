@@ -1,31 +1,31 @@
-<form>
+ <form method="post">
 
 <img src="/static/Logo.png" alt="Facebook Austin Elo" height="200">
-<body method="get" bgcolor="#d3d3d3">
+<body method="post" bgcolor="#d3d3d3">
 <font FACE="Lucida Grande">	
 	<h2>Select Your Game</h2>
-	<input type = "radio" name="game" value="Smash">Super Smash Brothers<br>
-	<input type = "radio" name="game" value="Rocket">Rocket League<br>
-	<input type = "radio" name="game" value="Fifa">Fifa<br>
-	<input type = "radio" name="game" value="Halo">Halo<br>
-	<input type = "radio" name="game" value="Pong">Ping Pong
+	<input type="radio" name="sport" value="Smash">Super Smash Brothers<br>
+	<input type="radio" name="sport" value="Rocket">Rocket League<br>
+	<input type="radio" name="sport" value="Fifa">Fifa<br>
+	<input type="radio" name="sport" value="Halo">Halo<br>
+	<input type="radio" name="sport" value="Pong">Ping Pong
 	<br>
 	<br>	
 
 	<h2>What Type of Game are you Playing?</h2>
-	<input type = "radio" name="gametype" value="1v1">1v1<br>
-	<input type = "radio" name="gametype" value="2v2">2v2<br>
-	<input type = "radio" name="gametype" value="1v1v1">1v1v1<br>
-	<input type = "radio" name="gametype" value="1v1v1v1">1v1v1v1<br>
+	<input type="radio"name="game_type" value="1v1">1v1<br>
+	<input type="radio"name="game_type" value="2v2">2v2<br>
+	<input type="radio"name="game_type" value="1v1v1">1v1v1<br>
+	<input type="radio"name="game_type" value="1v1v1v1">1v1v1v1<br>
 
 	<h2>Who won?</h2>
-	<b>Winner 1 FB Email Address  </b><input type = "text" name="namew1" size="40" required pattern="*@fb.com$"><br><br>
+	<b>Winner 1 FB Email Address  </b><input type="text" name="winner1" size="40" required pattern="*@fb.com$"><br><br>
 
-	<b>Winner 2 / Second Place FB Email Address  </b><input type = "text" name="namew2"  size="40" required pattern="*@fb.com$"><br><br>
+	<b>Winner 2 / Second Place FB Email Address  </b><input type="text" name="winner2"  size="40" required pattern="*@fb.com$"><br><br>
 
-	<b>Loser 1 / Third Place FB Email Address  </b><input type = "text" name="namel1"  size="40" pattern="*@fb.com$"><br><br>
+	<b>Loser 1 / Third Place FB Email Address  </b><input type="text" name="loser1"  size="40" pattern="*@fb.com$"><br><br>
 
-	<b>Loser 2 / Fourth Place FB Email Address  </b><input type = "text" name="namel2"  size="40" pattern="*@fb.com$"><br><br>
+	<b>Loser 2 / Fourth Place FB Email Address  </b><input type="text" name="loser2"  size="40" pattern="*@fb.com$"><br><br>
 
 <input type="submit" value="Submit">
 </font>
