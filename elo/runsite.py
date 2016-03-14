@@ -20,10 +20,32 @@ def teardown_request(exception):
     if db is not None:
         db.close()
 
-@app.route('/', methods=['GET', 'POST'])
-def elo_view():
+@app.route('/add_a_game', methods=['GET'])
+def render_game_form(game, game_type):
+    if game_type == '1v1':   
+        field_list = ['winner', 'loser']
+    elif game_type == '2v2':
+        field_list = ['winner1', 'winner2', 'loser1', 'loser2']
+    elif game_type == '1v1v1':
+        field_list = ['first', 'second', 'third']
+    elif game_type == '1v1v1v1':
+        field_list = ['first', 'second', 'third', 'fourth']
+    return redirect(url_for('add_game', field_list=field_list))
+
+@app.route('/', methods = ['GET', 'POST'])
+def main_page():
+    if request.method == 'GET':
+        return render_template('home_page.html')
+    game = request.form['game']
+    game_type = request.form['game_type']
+    if game_type == '':
+        return redirect(url_for('leaderboard_view', game=game))
+    return redirect(url_for('add_entry', game=game, game_type=game_type))
+
+@app.route('/add_a_game', methods=['POST'])
+def add_entry(game, game_type):
     if request.method == 'POST':
-        sport = request.form['sport']
+        sport = request.form['game']
         game_type = request.form['game_type']
         conn = connect_db()
         c = conn.cursor()
@@ -53,15 +75,15 @@ def elo_view():
         conn.commit()
         conn.close()
 
-        return redirect(url_for('leaderboard_view'))
+        return redirect(url_for('main_page'))
     else:
-        return render_template('elo.html')
+        return render_gameform(game, game_type)
 
-@app.route('/leaderboard', methods=['GET', 'POST'])
-def leaderboard_view():
+@app.route('/leaderboard', methods=['GET'])
+def leaderboard_view(game, game_type):
     conn = connect_db()
     c = conn.cursor()
-    c.execute('select * from ratings')
+    c.execute('select * from ratings where game = {game}'.format(game=game))
     res = c.fetchall()
     scores = {result[0] + '_' + result[1]:
               ts.Rating(mu=result[2], sigma=result[3]) for result in res}

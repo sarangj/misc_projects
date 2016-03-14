@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  {% for field in field_list %}
+    <input type="text" name="{{ field }}" size=20>
+  {% endfor %}
+
+{% endblock %}

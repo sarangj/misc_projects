@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="container" style="width:100%;">
+  <h1> Add Entry </h1>
+  <div id="left" style="float:left; width:50%;"> 
+    <form action="{{ url_for('add_entry') }}" method=post>
+      <h2>Select Your Game</h2>
+      <input type="radio" name="sport" value="Smash">Super Smash Brothers<br>
+      <input type="radio" name="sport" value="Rocket">Rocket League<br>
+      <input type="radio" name="sport" value="Fifa">Fifa<br>
+      <input type="radio" name="sport" value="Halo">Halo<br>
+      <input type="radio" name="sport" value="Pong">Ping Pong
+      <br>
+      <br>  
+
+      <h2>What Type of Game are you Playing?</h2>
+      <input type="radio"name="game_type" value="1v1">1v1<br>
+      <input type="radio"name="game_type" value="2v2">2v2<br>
+      <input type="radio"name="game_type" value="1v1v1">1v1v1<br>
+      <input type="radio"name="game_type" value="1v1v1v1">1v1v1v1<br>
+    <input type="submit" value="Submit"> 
+  </div> 
+  <h1> View Leaderboard </h1>
+    <form action="{{ url_for('leaderboard_view') }}" method=post>
+      <h2>Select Your Game</h2>
+      <input type="radio" name="sport" value="Smash">Super Smash Brothers<br>
+      <input type="radio" name="sport" value="Rocket">Rocket League<br>
+      <input type="radio" name="sport" value="Fifa">Fifa<br>
+      <input type="radio" name="sport" value="Halo">Halo<br>
+      <input type="radio" name="sport" value="Pong">Ping Pong
+      <input type="submit" value="Submit">
+  <div id="right" style="float:right; width:50%;"> 
+  </div> 
+</div>                                                                     
+{% endblock %}
